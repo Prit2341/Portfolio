@@ -8,37 +8,37 @@ const projects = [
     title: "Bank Fraud Detection",
     category: "Real-Time Big Data Pipeline",
     tools: "Apache Spark, Scala, Kafka, HDFS, GBT — AUC-ROC 0.89",
-    image: "/images/fraud.png",
+    image: "/images/placeholder.webp",
   },
   {
     title: "Fake News Detection",
     category: "NLP & MLOps",
     tools: "SBERT, LightGBM, XLM-RoBERTa, FastAPI — 99.71% accuracy",
-    image: "/images/fakenews.png",
+    image: "/images/placeholder.webp",
   },
   {
     title: "Image Super-Resolution",
     category: "Computer Vision",
     tools: "PyTorch, FastAPI, Docker, Prometheus, Grafana, GitHub Actions",
-    image: "/images/superres.png",
+    image: "/images/placeholder.webp",
   },
   {
     title: "VITON-HD Virtual Try-On",
     category: "Computer Vision",
     tools: "SegFormer, MediaPipe, PyTorch, Self-Attention",
-    image: "/images/viton.png",
+    image: "/images/placeholder.webp",
   },
   {
     title: "SME Loan Default Prediction",
     category: "Credit Risk Modelling",
     tools: "Logistic Regression, Random Forest, Gradient Boosting, EDA",
-    image: "/images/loan.png",
+    image: "/images/placeholder.webp",
   },
   {
     title: "Flight Delay Prediction",
     category: "Predictive Analytics",
     tools: "NOAA Weather Data, Multiple ML Models, Route Analysis",
-    image: "/images/flight.png",
+    image: "/images/placeholder.webp",
   },
 ];
 

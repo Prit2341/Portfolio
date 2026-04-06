@@ -45,15 +45,15 @@ const Navbar = () => {
     <>
       <div className="header">
         <a href="/#" className="navbar-title" data-cursor="disable" aria-label="Home">
-          RC
+          PM
         </a>
         <a
-          href="mailto:rajeshchittyal21@gmail.com"
+          href="mailto:pritmayani359@gmail.com"
           className="navbar-connect"
           data-cursor="disable"
-          aria-label="Email Rajesh"
+          aria-label="Email Prit"
         >
-          rajeshchittyal21@gmail.com
+          pritmayani359@gmail.com
         </a>
         <ul>
           <li>
