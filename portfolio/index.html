@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prit Mayani — mostly breaks things until they work</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --paper: #e8e6e1;
+            --ink: #1c1917;
+            --ink-light: #44403c;
+            --ink-faint: #a8a29e;
+            --accent: #ea580c;
+            --accent-warm: #d97706;
+            --accent-soft: rgba(234, 88, 12, 0.08);
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-serif: 'Source Serif 4', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: white;
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--paper); }
+        ::-webkit-scrollbar-thumb { background: var(--ink-faint); border: 3px solid var(--paper); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav {
+            padding: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px dashed var(--ink-faint);
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-name {
+            font-family: var(--font-mono);
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--ink);
+            text-decoration: none;
+            position: relative;
+        }
+        .nav-name::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; left: 0;
+            width: 100%; height: 2px;
+            background: var(--accent);
+            opacity: 0.6;
+            transform: rotate(-0.5deg);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+        .nav-links a {
+            color: var(--ink-light);
+            text-decoration: none;
+            transition: color 0.2s;
+            position: relative;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links a::before {
+            content: '#';
+            color: var(--ink-faint);
+            margin-right: 2px;
+        }
+
+        .hero {
+            padding: 4rem 0 6rem;
+            position: relative;
+        }
+
+        .hero-pretitle {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .hero-pretitle::before {
+            content: '';
+            display: inline-block;
+            width: 30px; height: 1px;
+            background: var(--ink-faint);
+        }
+
+        .hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            max-width: 900px;
+        }
+        .hero h1 em {
+            font-style: italic;
+            color: var(--accent);
+            position: relative;
+        }
+        .hero h1 em::after {
+            content: '';
+            position: absolute;
+            bottom: 2px; left: -2px; right: -2px;
+            height: 8px;
+            background: var(--accent-soft);
+            z-index: -1;
+            transform: rotate(-1deg);
+        }
+
+        .hero-body {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .hero-text {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: var(--ink-light);
+        }
+        .hero-text p { margin-bottom: 1.25rem; }
+        .hero-text strong { font-weight: 600; color: var(--ink); }
+
+        .status-card {
+            background: #fef3c7;
+            padding: 1.5rem;
+            transform: rotate(1.5deg);
+            box-shadow: 2px 3px 10px rgba(0,0,0,0.08);
+            border: none;
+            position: relative;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--ink);
+        }
+        .status-card::before {
+            content: '';
+            position: absolute;
+            top: -10px; left: 50%;
+            transform: translateX(-50%);
+            width: 60px; height: 18px;
+            background: rgba(0,0,0,0.08);
+            filter: blur(2px);
+        }
+        .status-card .label {
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .hero-actions {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: 2px solid var(--ink);
+            color: var(--ink);
+            background: transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+            box-shadow: 3px 3px 0 var(--ink);
+        }
+        .btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0 var(--accent);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .btn-primary {
+            background: var(--ink);
+            color: var(--paper);
+        }
+        .btn-primary:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .section-header {
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .section-num {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--ink-faint);
+            font-weight: 500;
+        }
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        .section-title span {
+            color: var(--ink-faint);
+            font-style: italic;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px dashed var(--ink-faint);
+            margin: 0;
+            opacity: 0.5;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+        .about-text {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--ink-light);
+        }
+        .about-text p { margin-bottom: 1.5rem; }
+        .about-text .highlight {
+            background: var(--accent-soft);
+            padding: 0.1rem 0.3rem;
+            color: var(--ink);
+        }
+
+        .side-note {
+            border-left: 3px solid var(--accent);
+            padding-left: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: var(--ink-light);
+        }
+        .side-note .prompt { color: var(--ink-faint); }
+        .side-note .cmd { color: var(--accent); font-weight: 700; }
+
+        .skills-area {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+        .skill-group h3 {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--ink-faint);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        .tag {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--ink-faint);
+            color: var(--ink-light);
+            text-decoration: none;
+            transition: all 0.2s;
+            background: transparent;
+        }
+        .tag:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px) rotate(-1deg);
+            box-shadow: 2px 2px 0 var(--accent-soft);
+        }
+        .tag.fav {
+            border-color: var(--ink);
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .project-item {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 3rem;
+            align-items: start;
+            padding: 2.5rem;
+            border: 2px solid var(--ink);
+            position: relative;
+            background: white;
+            box-shadow: 4px 4px 0 var(--ink);
+            transition: all 0.3s;
+        }
+        .project-item:nth-child(even) {
+            grid-template-columns: 1.3fr 1fr;
+            direction: rtl;
+        }
+        .project-item:nth-child(even) > * { direction: ltr; }
+        .project-item:nth-child(2) { transform: rotate(-0.3deg); }
+        .project-item:nth-child(3) { transform: rotate(0.4deg); }
+        .project-item:nth-child(4) { transform: rotate(-0.2deg); }
+        .project-item:nth-child(5) { transform: rotate(0.2deg); }
+
+        .project-item:hover {
+            box-shadow: 6px 6px 0 var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-4px) rotate(0deg);
+        }
+
+        .project-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .project-title {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+        .project-metrics {
+            display: flex;
+            gap: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+        .project-metrics span {
+            display: flex;
+            flex-direction: column;
+        }
+        .project-metrics .num {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .project-metrics .lbl {
+            color: var(--ink-faint);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .project-desc {
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--ink-light);
+            margin-bottom: 1.5rem;
+        }
+        .project-desc p { margin-bottom: 1rem; }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+        .project-links a {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--ink-faint);
+            padding-bottom: 2px;
+            transition: all 0.2s;
+        }
+        .project-links a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+        .project-tags span {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--ink-faint);
+            background: var(--paper);
+            padding: 0.2rem 0.6rem;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        .testimonial-card {
+            background: white;
+            border: 2px solid var(--ink);
+            padding: 2rem;
+            position: relative;
+            box-shadow: 3px 3px 0 var(--ink);
+            transition: all 0.3s;
+        }
+        .testimonial-card:nth-child(1) { transform: rotate(-0.5deg); }
+        .testimonial-card:nth-child(2) { transform: rotate(0.8deg); }
+        .testimonial-card:nth-child(3) { transform: rotate(0.4deg); }
+        .testimonial-card:nth-child(4) { transform: rotate(-0.7deg); }
+        .testimonial-card:nth-child(5) { transform: rotate(0.3deg); }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px) rotate(0deg);
+            box-shadow: 5px 5px 0 var(--accent);
+            border-color: var(--accent);
+        }
+
+        .testimonial-stars {
+            color: var(--accent-warm);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        .testimonial-text {
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--ink-light);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+        .testimonial-text::before {
+            content: '"';
+            font-size: 3rem;
+            line-height: 1;
+            color: var(--accent-soft);
+            font-family: var(--font-serif);
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+        .author-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: var(--paper);
+            border: 2px solid var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--ink-light);
+            flex-shrink: 0;
+        }
+        .author-info { display: flex; flex-direction: column; }
+        .author-name { color: var(--ink); font-weight: 600; }
+        .author-loc { color: var(--ink-faint); font-size: 0.75rem; }
+        .author-project {
+            color: var(--accent);
+            font-size: 0.75rem;
+            margin-top: 0.15rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 2px;
+            background: repeating-linear-gradient(
+                to bottom,
+                var(--ink-faint) 0,
+                var(--ink-faint) 6px,
+                transparent 6px,
+                transparent 12px
+            );
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 3rem;
+            padding-left: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.4rem;
+            width: 10px; height: 10px;
+            background: var(--paper);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            margin-left: -5px;
+        }
+
+        .timeline-date {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+        .timeline-title {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .timeline-org {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--ink-light);
+            margin-bottom: 0.75rem;
+        }
+        .timeline-desc {
+            font-family: var(--font-serif);
+            color: var(--ink-light);
+            line-height: 1.7;
+        }
+        .timeline-desc ul {
+            padding-left: 1.2rem;
+            margin-top: 0.5rem;
+        }
+        .timeline-desc li { margin-bottom: 0.4rem; }
+
+        .contact-section {
+            padding: 6rem 0;
+            text-align: center;
+        }
+        .contact-section h2 {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+        }
+        .contact-section p {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            color: var(--ink-light);
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .contact-links a {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--ink);
+            text-decoration: none;
+            border: 2px solid var(--ink);
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s;
+            box-shadow: 3px 3px 0 var(--ink);
+        }
+        .contact-links a:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0 var(--accent);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--ink-faint);
+            border-top: 1px dashed var(--ink-faint);
+        }
+
+        @media (max-width: 768px) {
+            .hero-body, .about-grid, .project-item, .project-item:nth-child(even), .testimonials-grid {
+                grid-template-columns: 1fr;
+                direction: ltr;
+            }
+            .project-item:nth-child(even) > * { direction: ltr; }
+            .project-item { transform: none !important; }
+            .testimonial-card { transform: none !important; }
+            .nav-links { gap: 1rem; font-size: 0.75rem; }
+            section { padding: 3rem 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav>
+            <a href="#" class="nav-name">prit_mayani</a>
+            <ul class="nav-links">
+                <li><a href="#about">about</a></li>
+                <li><a href="#work">work</a></li>
+                <li><a href="#words">words</a></li>
+                <li><a href="#history">history</a></li>
+                <li><a href="#contact">contact</a></li>
+            </ul>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-pretitle">GATE 2025 · PDEU · Gandhinagar</div>
+            <h1>
+                I'm Prit Mayani, and I build data systems that <em>actually ship</em> to production.
+            </h1>
+            <div class="hero-body">
+                <div class="hero-text">
+                    <p>
+                        Most ML portfolios stop at Jupyter notebooks. Mine doesn't — I've spent more time debugging 
+                        <strong>Kafka consumer lag</strong> than tuning learning rates, and I'm weirdly proud of that.
+                    </p>
+                    <p>
+                        Currently doing my M.Tech in Data Science at PDEU. I work on the boring-but-important stuff: 
+                        streaming pipelines, model monitoring, feature stores, and the glue code that keeps 
+                        "AI" from falling over at 2 AM.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#work" class="btn btn-primary">See the messy stuff →</a>
+                        <a href="/mnt/agents/upload/PritResume.pdf" class="btn" download>Resume.pdf</a>
+                    </div>
+                </div>
+                <div class="status-card">
+                    <span class="label">Currently</span>
+                    Fighting with Spark executor memory on a fraud detection pipeline. 
+                    Also learning why you should never use `repartition(1)` in production. 
+                    <br><br>
+                    <span style="color: var(--ink-faint)">— Last updated May 2026</span>
+                </div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section id="about">
+            <div class="section-header">
+                <span class="section-num">01</span>
+                <h2 class="section-title">About <span>me</span></h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>
+                        I got into data science because I liked breaking things. Now I get paid (well, stipended) 
+                        to break Spark clusters and fix them before anyone notices.
+                    </p>
+                    <p>
+                        My sweet spot is the <span class="highlight">messy middle</span> between "it works on my laptop" 
+                        and "it's running on Kubernetes." I've hand-rolled feature pipelines in Scala, debugged 
+                        PyTorch CUDA errors at 3 AM, and explained to stakeholders why AUC-ROC isn't the only metric 
+                        that matters.
+                    </p>
+                    <p>
+                        When I'm not staring at Grafana dashboards, I'm probably arguing about whether 
+                        LightGBM is underrated or trying to get a VITON-HD model to run on a GPU with 6GB VRAM.
+                    </p>
+                </div>
+                <div class="side-note">
+                    <span class="prompt">$</span> <span class="cmd">cat</span> tools_i_actually_use.txt<br><br>
+                    spark, kafka, pytorch<br>
+                    fastapi, docker, git (obviously)<br>
+                    vim (yes, really)<br>
+                    too many browser tabs<br><br>
+                    <span class="prompt">$</span> <span class="cmd">cat</span> tools_i_tweet_about.txt<br><br>
+                    kubernetes, kubeflow, "AI"<br><br>
+                    <span style="color: var(--ink-faint)"># there's a difference</span>
+                </div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section id="skills">
+            <div class="section-header">
+                <span class="section-num">02</span>
+                <h2 class="section-title">Things I <span>use</span></h2>
+            </div>
+            <div class="skills-area">
+                <div class="skill-group">
+                    <h3>The daily drivers</h3>
+                    <div class="skill-tags">
+                        <span class="tag fav">Python</span>
+                        <span class="tag fav">Apache Spark</span>
+                        <span class="tag fav">PyTorch</span>
+                        <span class="tag fav">Kafka</span>
+                        <span class="tag fav">FastAPI</span>
+                        <span class="tag fav">SQL</span>
+                        <span class="tag fav">Docker</span>
+                        <span class="tag fav">Git</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h3>ML & Deep Learning</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Scikit-learn</span>
+                        <span class="tag">XGBoost</span>
+                        <span class="tag">LightGBM</span>
+                        <span class="tag">Transformers</span>
+                        <span class="tag">XLM-RoBERTa</span>
+                        <span class="tag">SBERT</span>
+                        <span class="tag">Feature Engineering</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h3>Big Data & MLOps</h3>
+                    <div class="skill-tags">
+                        <span class="tag">HDFS</span>
+                        <span class="tag">Hadoop</span>
+                        <span class="tag">Kubernetes (k3s)</span>
+                        <span class="tag">Kubeflow</span>
+                        <span class="tag">Prometheus</span>
+                        <span class="tag">Grafana</span>
+                        <span class="tag">Databricks</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h3>Vision & Viz</h3>
+                    <div class="skill-tags">
+                        <span class="tag">SegFormer</span>
+                        <span class="tag">MediaPipe</span>
+                        <span class="tag">Power BI</span>
+                        <span class="tag">Tableau</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section id="work">
+            <div class="section-header">
+                <span class="section-num">03</span>
+                <h2 class="section-title">Stuff I <span>built</span></h2>
+            </div>
+            <div class="projects-list">
+
+                <article class="project-item">
+                    <div class="project-meta">
+                        <h3 class="project-title">Real-Time Bank Fraud Detection</h3>
+                        <div class="project-metrics">
+                            <span><span class="num">0.89</span><span class="lbl">AUC-ROC</span></span>
+                            <span><span class="num">0.63</span><span class="lbl">KS Stat</span></span>
+                            <span><span class="num">&lt;100ms</span><span class="lbl">Latency</span></span>
+                        </div>
+                        <div class="project-tags">
+                            <span>Spark</span>
+                            <span>Scala</span>
+                            <span>Kafka</span>
+                            <span>HDFS</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="project-desc">
+                            <p>
+                                Built this because I was tired of seeing fraud detection demos that only work on CSV files. 
+                                This thing consumes live transactions from Kafka, runs feature engineering in Spark Structured Streaming, 
+                                and scores events with a GBT classifier before the user even sees their debit notification.
+                            </p>
+                            <p>
+                                The 1.1% fraud rate meant I had to get creative with class weights and median imputation. 
+                                AUC-ROC of 0.89 doesn't sound sexy until you realize it's on streaming data with real concept drift.
+                            </p>
+                        </div>
+                        <div class="project-links">
+                            <a href="#">GitHub →</a>
+                            <a href="#">System diagram</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-item">
+                    <div class="project-meta">
+                        <h3 class="project-title">Multilingual Fake News Detector</h3>
+                        <div class="project-metrics">
+                            <span><span class="num">99.71%</span><span class="lbl">Accuracy</span></span>
+                            <span><span class="num">0.9999</span><span class="lbl">AUC</span></span>
+                        </div>
+                        <div class="project-tags">
+                            <span>FastAPI</span>
+                            <span>XLM-R</span>
+                            <span>SBERT</span>
+                            <span>Docker</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="project-desc">
+                            <p>
+                                An MLOps pipeline that actually has tests. Ingests news articles in multiple languages, 
+                                generates embeddings with Sentence-BERT, and runs an ensemble of LightGBM + fine-tuned XLM-RoBERTa.
+                            </p>
+                            <p>
+                                Served through a FastAPI API with request logging, model versioning, and enough Prometheus metrics 
+                                to make your DevOps team cry tears of joy. The 99.71% accuracy is nice, but I'm prouder of the 
+                                Dockerfile being under 200MB.
+                            </p>
+                        </div>
+                        <div class="project-links">
+                            <a href="#">GitHub →</a>
+                            <a href="#">API docs</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-item">
+                    <div class="project-meta">
+                        <h3 class="project-title">Image Super-Resolution</h3>
+                        <div class="project-metrics">
+                            <span><span class="num">38.48</span><span class="lbl">PSNR</span></span>
+                            <span><span class="num">0.99</span><span class="lbl">SSIM</span></span>
+                        </div>
+                        <div class="project-tags">
+                            <span>PyTorch</span>
+                            <span>Autoencoder</span>
+                            <span>Prometheus</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="project-desc">
+                            <p>
+                                Convolutional autoencoder trained on 100K real-world noisy images. Takes a grainy 48×48 thumbnail 
+                                and spits out a clean 96×96 version. 
+                            </p>
+                            <p>
+                                Full MLOps stack because why not: FastAPI for serving, Docker Compose for orchestration, 
+                                Prometheus + Grafana for monitoring, GitHub Actions for CI. Probably over-engineered for a student project. 
+                                No regrets.
+                            </p>
+                        </div>
+                        <div class="project-links">
+                            <a href="#">GitHub →</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-item">
+                    <div class="project-meta">
+                        <h3 class="project-title">VITON-HD Virtual Try-On</h3>
+                        <div class="project-tags">
+                            <span>SegFormer</span>
+                            <span>MediaPipe</span>
+                            <span>CUDA</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="project-desc">
+                            <p>
+                                Built a virtual try-on system using the VITON-HD architecture. Integrated SegFormer for human parsing 
+                                and MediaPipe for pose estimation so the clothes actually fit the body instead of floating in space.
+                            </p>
+                            <p>
+                                Had to do some sketchy memory optimizations to get it training on a single consumer GPU. 
+                                Self-attention is great until you run out of VRAM.
+                            </p>
+                        </div>
+                        <div class="project-links">
+                            <a href="#">GitHub →</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-item">
+                    <div class="project-meta">
+                        <h3 class="project-title">SME Loan Default Predictor</h3>
+                        <div class="project-tags">
+                            <span>Risk Modeling</span>
+                            <span>EDA</span>
+                            <span>Ensemble</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="project-desc">
+                            <p>
+                                Credit risk model on LendingClub data from 2007–2018. Compared Logistic Regression, Random Forest, 
+                                and Gradient Boosting. Did way too much EDA and found that debt-to-income ratio and loan grade 
+                                basically tell the whole story.
+                            </p>
+                            <p>
+                                Translated the model output into a risk scoring logic that lenders could actually use. 
+                                Sometimes the simplest model in production beats the fanciest one in a notebook.
+                            </p>
+                        </div>
+                        <div class="project-links">
+                            <a href="#">GitHub →</a>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section id="words">
+            <div class="section-header">
+                <span class="section-num">04</span>
+                <h2 class="section-title">Kind <span>words</span></h2>
+            </div>
+            <div class="testimonials-grid">
+
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <div class="testimonial-text">
+                        I found Prit to be very honest, hardworking, and willing to go above and beyond to help. 
+                        His knowledge of new technology such as python/Django and machine learning is amazing. 
+                        If you are looking for a programmer who is punctual, and skilled full, you are in right place.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><i class="fas fa-user"></i></div>
+                        <div class="author-info">
+                            <span class="author-name">Ashenafi A.</span>
+                            <span class="author-loc">Edmonton, CA</span>
+                            <span class="author-project">Python/Django project</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <div class="testimonial-text">
+                        High quality work and very prompt response. Great to work with Prit!
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><i class="fas fa-user"></i></div>
+                        <div class="author-info">
+                            <span class="author-name">Mark G.</span>
+                            <span class="author-loc">Alhambra, CA, US</span>
+                            <span class="author-project">Python articles & cheatsheets</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <div class="testimonial-text">
+                        Great work creating a mobile app for me, skilled, honest and patient.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><i class="fas fa-user"></i></div>
+                        <div class="author-info">
+                            <span class="author-name">Sebastian H.</span>
+                            <span class="author-loc">Guildford, GB</span>
+                            <span class="author-project">Android & iOS app</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <div class="testimonial-text">
+                        He has good skills in Flutter app development. Keep up the good work. Very good work.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><i class="fas fa-user"></i></div>
+                        <div class="author-info">
+                            <span class="author-name">Pradeesh T.</span>
+                            <span class="author-loc">Singapore, SG</span>
+                            <span class="author-project">Flutter mobile app (3 pages)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section id="history">
+            <div class="section-header">
+                <span class="section-num">05</span>
+                <h2 class="section-title">Where I've <span>been</span></h2>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Jul 2025 — Present</div>
+                    <div class="timeline-title">M.Tech Data Science</div>
+                    <div class="timeline-org">Pandit Deendayal Energy University (PDEU), Gandhinagar</div>
+                    <div class="timeline-desc">
+                        GATE 2025 admit. Currently learning how to keep distributed systems from catching fire. 
+                        Focusing on real-time streaming, scalable ML, and the art of writing YAML files.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Aug — Oct 2023</div>
+                    <div class="timeline-title">Data Science Intern</div>
+                    <div class="timeline-org">Feynaa Lab · Remote</div>
+                    <div class="timeline-desc">
+                        <ul>
+                            <li>Cleaned datasets that looked like they were scraped by a bot having a bad day</li>
+                            <li>Ran EDA until the patterns started showing up in my dreams</li>
+                            <li>Built baseline models and documented why they failed — failure logs are underrated</li>
+                            <li>Did cluster analysis that actually made sense to the business team</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Oct 2020 — Jun 2024</div>
+                    <div class="timeline-title">B.Tech Information Technology</div>
+                    <div class="timeline-org">ITM SLS Baroda University, Vadodara</div>
+                    <div class="timeline-desc">
+                        Learned the fundamentals: DSA, DBMS, networking, and that one professor who insisted we write 
+                        Java applets in 2023. Graduated with a solid foundation and a mild caffeine addiction.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section id="contact" class="contact-section">
+            <h2>Want to talk shop?</h2>
+            <p>
+                I'm open to data engineering, ML engineering, and MLOps roles. 
+                Or just send me your worst Spark error log and we'll figure it out together.
+            </p>
+            <div class="contact-links">
+                <a href="mailto:pritmayani359@gmail.com">pritmayani359@gmail.com</a>
+                <a href="tel:+919924563942">+91 99245 63942</a>
+                <a href="https://github.com/Prit2341" target="_blank">GitHub</a>
+                <a href="https://linkedin.com/in/prit-mayani" target="_blank">LinkedIn</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>Built by hand with too much coffee · Prit Mayani · 2026</p>
+            <p style="margin-top: 0.5rem; font-size: 0.75rem;">No AI was harmed in the making of this website. (Okay, maybe a little.)</p>
+        </footer>
+    </div>
+
+</body>
+</html>
